@@ -15,25 +15,25 @@ export default function BestsellersSection() {
           <ProductCard
             name="Authentic Chakli"
             price="LKR 150"
-            image="/assets/images/chakli.jpg"
+            image="/assets/images/piti.webp"
             description="Crunchy savory spiral snack made with rice flour."
           />
           <ProductCard
             name="Besan Laddu"
             price="LKR 300"
-            image="/assets/images/laddu.jpg"
+            image="/assets/images/piti.webp"
             description="Traditional sweet made with gram flour and ghee."
           />
           <ProductCard
             name="Spicy Mixture"
             price="LKR 180"
-            image="/assets/images/mixture.jpg"
+            image="/assets/images/piti.webp"
             description="Crunchy spicy mix with peanuts and noodles."
           />
           <ProductCard
             name="Butter Murukku"
             price="LKR 200"
-            image="/assets/images/murukku.jpg"
+            image="/assets/images/piti.webp"
             description="Melt-in-mouth rice flour snack."
           />
         </div>
