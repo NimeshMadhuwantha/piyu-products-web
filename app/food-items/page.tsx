@@ -1,6 +1,6 @@
 "use client";
 
-import CategoryFilter from "@/components/CategoryFilter";
+import CategoryFilter, { CATEGORIES } from "@/components/CategoryFilter";
 import FoodGrid from "@/components/FoodGrid";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
@@ -17,8 +17,6 @@ type FoodItem = {
   badge?: string;
   category: string;
 };
-
-const CATEGORIES = ["All", "Sweet", "Spicy", "Savory", "Healthy", "Drinks"];
 
 const PAGE_SIZE = 20;
 
@@ -111,10 +109,12 @@ export default function FoodItemsPage() {
       <main className="max-w-7xl mx-auto px-4 py-8">
         <section className="flex flex-col gap-8 mb-10">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-            <h2 className="text-2xl font-bold">Our Delicious Snacks</h2>
-            <p className="text-text-muted">
-              Hand-picked flavors for your cravings
-            </p>
+            <div className="text-center md:text-left">
+              <h2 className="text-4xl font-bold">Our Delicious Snacks</h2>
+              <p className="text-text-muted pl-1 py-3 sm:py-1 opacity-70 font-medium">
+          Hand-picked flavors for your cravings
+              </p>
+            </div>
             <div className="md:min-w-100">
               <SearchBar value={query} onChange={handleQueryChange} />
             </div>

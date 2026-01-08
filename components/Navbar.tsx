@@ -38,7 +38,7 @@ export default function Navbar() {
             <Link
               key={link.href}
               href={link.href}
-              className={isActive(link.href) ? "text-green-400" : "text-black hover:text-gray-700 transition-colors"}
+              className={isActive(link.href) ? "text-primary-green" : "text-black hover:text-gray-700 transition-colors"}
             >
               {link.label}
             </Link>
@@ -74,7 +74,7 @@ export default function Navbar() {
                 onClick={() => setIsMenuOpen(false)}
                 className={`text-sm font-bold py-2 ${
                   isActive(link.href) 
-                    ? "text-green-400" 
+                    ? "text-primary-green" 
                     : "text-black hover:text-gray-700 transition-colors"
                 }`}
               >
