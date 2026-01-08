@@ -22,10 +22,10 @@ const PAGE_SIZE = 20;
 
 const foodItems: FoodItem[] = [
   {
-    name: "Spicy nuts",
-    price: "$4.50",
+    name: "Spicy nut sgsgsd s gsrg srs",
+    price: "Rs.2300",
     image: "/assets/images/piti.webp",
-    description: "Crunchy peanuts coated in spicy masala.",
+    description: "Crunchy peanuts coated in spicy masalunchy peanuts coated in spicy masalaa.",
     category: "Spicy",
   },
   {

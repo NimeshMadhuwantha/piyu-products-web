@@ -1,15 +1,37 @@
+import { ReactNode } from "react";
+
 type ButtonProps = {
-  text: string;
+  children: ReactNode;
   onClick?: () => void;
+  variant?: "primary" | "secondary";
+  icon?: ReactNode;
+  type?: "button" | "submit" | "reset";
+  className?: string;
 };
 
-export default function Button({ text, onClick }: ButtonProps) {
+export default function Button({ 
+  children, 
+  onClick, 
+  variant = "primary",
+  icon,
+  type = "button",
+  className = ""
+}: ButtonProps) {
+  const baseClasses = "flex items-center justify-center font-medium text-sm rounded-lg transition-all duration-200";
+  
+  const variantClasses = {
+    primary: "gap-2 py-2 px-1 bg-primary-green text-white hover:bg-primary-green/85 shadow-sm",
+    secondary: "py-2 px-1 border-2 border-gray-300 dark:border-white/20 text-text-main dark:text-white hover:bg-gray-100 dark:hover:bg-white/10 hover:border-gray-400"
+  };
+
   return (
     <button
+      type={type}
       onClick={onClick}
-      className="bg-primary hover:bg-primary-dark text-white font-bold px-6 py-3 rounded-lg transition"
+      className={`${baseClasses} ${variantClasses[variant]} ${className}`}
     >
-      {text}
+      {icon && <span className="material-symbols-outlined text-[18px]">{icon}</span>}
+      {children}
     </button>
   );
 }
