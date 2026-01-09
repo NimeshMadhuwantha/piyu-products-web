@@ -3,7 +3,7 @@ import FoodCard from "./FoodCard";
 type Props = {
   items: {
     name: string;
-    price: string;
+    price: number;
     image: string;
     description: string;
     badge?: string;
