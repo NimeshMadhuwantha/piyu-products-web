@@ -1,6 +1,11 @@
-import ProductCard from "./ProductCard";
+import FoodCard from "./FoodCard";
+import { foodItems } from "@/data/foodItems";
 
 export default function BestsellersSection() {
+  // Select specific items for bestsellers by their IDs
+  const bestsellerIds = ["item-1", "item-3", "item-5", "item-6", "item-8", "item-9", "item-11", "item-12"];
+  const bestsellerItems = foodItems.filter(item => bestsellerIds.includes(item.id));
+
   return (
     <section className="py-10 sm:py-14">
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6">
@@ -12,30 +17,17 @@ export default function BestsellersSection() {
 
         {/* Responsive grid */}
         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5 lg:gap-6">
-          <ProductCard
-            name="Authentic Chakli"
-            price="LKR 150"
-            image="/assets/images/piti.webp"
-            description="Crunchy savory spiral snack made with rice flour."
-          />
-          <ProductCard
-            name="Besan Laddu"
-            price="LKR 300"
-            image="/assets/images/piti.webp"
-            description="Traditional sweet made with gram flour and ghee."
-          />
-          <ProductCard
-            name="Spicy Mixture"
-            price="LKR 180"
-            image="/assets/images/piti.webp"
-            description="Crunchy spicy mix with peanuts and noodles."
-          />
-          <ProductCard
-            name="Butter Murukku"
-            price="LKR 200"
-            image="/assets/images/piti.webp"
-            description="Melt-in-mouth rice flour snack."
-          />
+          {bestsellerItems.map((item) => (
+            <FoodCard
+              key={item.id}
+              id={item.id}
+              name={item.name}
+              price={item.price}
+              image={item.image}
+              description={item.description}
+              badge={item.badge}
+            />
+          ))}
         </div>
       </div>
     </section>
