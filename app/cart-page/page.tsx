@@ -26,6 +26,52 @@ export default function CartPage() {
   const shipping = totalWeight > 0 ? Math.ceil(totalWeight / 1000) * 300 : 0;
   const total = subtotal + shipping;
 
+  // Function to create WhatsApp order message
+  const sendWhatsAppOrder = () => {
+    if (cartItems.length === 0) {
+      alert("Your cart is empty!");
+      return;
+    }
+
+    // Build the order summary message
+    let message = "*🛒 NEW ORDER*\n";
+    message += "═══════════════════════\n\n";
+    
+    // Add each item details
+    cartItems.forEach((item, index) => {
+      const itemTotal = item.price * item.quantity;
+      const itemTotalWeight = item.weight * item.quantity;
+      
+      message += `*${index + 1}. ${item.name}*\n`;
+      message += `   💰 Unit Price: LKR ${item.price.toLocaleString()}\n`;
+      message += `   📦 Quantity: ${item.quantity}\n`;
+      message += `   ⚖️ Unit Weight: ${item.weight}g\n`;
+      message += `   📊 Total Weight: ${itemTotalWeight}g\n`;
+      message += `   💵 Subtotal: LKR ${itemTotal.toLocaleString()}\n`;
+      message += `\n`;
+    });
+
+    message += "═══════════════════════\n";
+    message += "*📋 ORDER SUMMARY*\n";
+    message += `Total Items: ${cartItems.length}\n`;
+    message += `Total Weight: ${totalWeight}g\n`;
+    message += `Subtotal: LKR ${subtotal.toLocaleString()}\n`;
+    message += `Shipping Cost: ${shipping === 0 ? 'Free' : `LKR ${shipping.toLocaleString()}`}\n`;
+    message += `\n*💰 TOTAL: LKR ${total.toFixed(2)}*\n`;
+    message += "═══════════════════════\n";
+    message += "\n📍 Payment: Cash on Delivery";
+
+    // Encode message for URL
+    const encodedMessage = encodeURIComponent(message);
+    
+    // WhatsApp business number
+    const phoneNumber = "94769963432"; // Remove spaces and + from +94 76 996 3432
+    
+    // Open WhatsApp with pre-filled message
+    const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+    window.open(whatsappURL, "_blank");
+  };
+
   return (
     <>
       <Navbar />
@@ -116,11 +162,14 @@ export default function CartPage() {
                   </div>
                 </div>
                 <p className="text-center text-sm text-gray-500 my-3 px-4">
-                  Cash on delivery - order placed using WhatsApp Cash on
-                  delivery - order placed usin
+                  Cash on delivery - order placed using WhatsApp
                 </p>
-                <Button variant="primary" className="w-full py-4 text-lg">
-                  Place Order
+                <Button 
+                  variant="primary" 
+                  className="w-full py-4 text-lg"
+                  onClick={sendWhatsAppOrder}
+                >
+                  Place Order via WhatsApp
                 </Button>
               </div>
             </div>
