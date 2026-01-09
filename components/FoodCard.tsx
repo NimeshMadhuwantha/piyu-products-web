@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Button from "./button";
 
 type Props = {
+  id: string;
   name: string;
   price: number;
   image: string;
@@ -12,6 +13,7 @@ type Props = {
 };
 
 export default function FoodCard({
+  id,
   name,
   price,
   image,
@@ -25,7 +27,7 @@ export default function FoodCard({
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
-    const storageKey = `food-quantity-${name}`;
+    const storageKey = `food-quantity-${id}`;
     const savedQuantity = localStorage.getItem(storageKey);
     if (savedQuantity) {
       const parsed = parseInt(savedQuantity, 10);
@@ -33,15 +35,15 @@ export default function FoodCard({
         setQuantity(parsed);
       }
     }
-  }, [name]);
+  }, [id]);
 
   // Save quantity to localStorage whenever it changes
   useEffect(() => {
     if (mounted) {
-      const storageKey = `food-quantity-${name}`;
+      const storageKey = `food-quantity-${id}`;
       localStorage.setItem(storageKey, quantity.toString());
     }
-  }, [quantity, name, mounted]);
+  }, [quantity, id, mounted]);
 
   const handleDecrease = () => {
     setQuantity((prev) => Math.max(1, prev - 1));
