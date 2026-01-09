@@ -77,7 +77,7 @@ export default function FoodCard({
   const totalPrice = price * quantity;
 
   return (
-    <div className="group bg-card-light dark:bg-card-dark rounded-2xl border border-gray-200 dark:border-white/2 shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_24px_rgba(0,0,0,0.1)] transition-all duration-300 flex flex-col overflow-hidden hover:-translate-y-1">
+    <div className="group bg-card-light dark:bg-card-dark rounded-2xl border-2 border-gray-200 dark:border-white/2 shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_24px_rgba(0,0,0,0.1)] transition-all duration-300 flex flex-col overflow-hidden hover:-translate-y-1">
       {/* Image */}
       <div className="aspect-4/3 w-full bg-gray-100 dark:bg-white/5 relative overflow-hidden">
         <div
@@ -117,7 +117,7 @@ export default function FoodCard({
               Quantity
             </span>
 
-            <div className="flex items-center bg-gray-50 dark:bg-white/5 rounded-lg border border-gray-200 dark:border-white/10 h-8">
+            <div className="flex items-center bg-gray-50 dark:bg-white/5 rounded-lg border border-gray-300 dark:border-white/10 h-8">
               <button
                 type="button"
                 onClick={handleDecrease}

@@ -26,7 +26,7 @@ export default function CartFoodCard({
   const decrease = () => quantity > 1 && onQuantityChange(quantity - 1);
 
   return (
-    <div className="bg-white dark:bg-[#2c241b] rounded-xl p-4 shadow-sm border hover:border-primary/20 transition">
+    <div className="bg-white dark:bg-[#2c241b] rounded-xl p-4  border-2 border-gray-300 dark:border-white/2 ">
       <div className="flex gap-4 sm:gap-6">
         
         {/* Image */}
@@ -46,7 +46,7 @@ export default function CartFoodCard({
 
             <button
               onClick={onRemove}
-              className="text-gray-400 hover:text-red-500 transition"
+              className="text-gray-400 hover:text-black transition"
               aria-label="Remove item"
             >
               <Trash2 size={18} />
@@ -57,25 +57,30 @@ export default function CartFoodCard({
             
             {/* Quantity */}
             <div className="flex items-center gap-3">
-              <div className="flex items-center rounded-lg border bg-gray-50 dark:bg-[#221910]">
+            <div className="flex items-center bg-gray-50 dark:bg-white/5 rounded-lg border border-gray-300 dark:border-white/10 h-8">
                 <button
-                  onClick={decrease}
-                  className="w-8 h-8 flex items-center justify-center hover:bg-gray-200 dark:hover:bg-[#3d3228]"
+                    type="button"
+                    onClick={decrease}
+                    className="px-2 h-full text-gray-500 hover:text-primary transition-colors flex items-center justify-center text-lg leading-none"
                 >
-                  −
+                    −
                 </button>
 
-                <span className="w-10 text-center text-sm font-semibold">
-                  {quantity}
-                </span>
+                <input
+                    type="text"
+                    readOnly
+                    value={quantity}
+                    className="w-8 text-center bg-transparent border-none p-0 text-sm font-medium text-text-main dark:text-white focus:ring-0"
+                />
 
                 <button
-                  onClick={increase}
-                  className="w-8 h-8 flex items-center justify-center hover:bg-gray-200 dark:hover:bg-[#3d3228]"
+                    type="button"
+                    onClick={increase}
+                    className="px-2 h-full text-gray-500 hover:text-primary transition-colors flex items-center justify-center text-lg leading-none"
                 >
-                  +
+                    +
                 </button>
-              </div>
+            </div>
 
               <span className="text-xs text-gray-500">
                 LKR {price.toLocaleString()} / unit
