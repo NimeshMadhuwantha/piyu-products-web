@@ -21,7 +21,7 @@ export default function Button({
   
   const variantClasses = {
     primary: "gap-2 py-2 px-1 bg-primary-green text-white hover:bg-primary-green/85 shadow-sm",
-    secondary: "py-2 px-1 border-2 border-gray-300 dark:border-white/20 text-text-main dark:text-white hover:bg-gray-100 dark:hover:bg-white/10 hover:border-gray-400"
+    secondary: "py-2 px-1 border-2 border-gray-300 text-gray-900 hover:bg-gray-100 hover:border-gray-400"
   };
 
   return (

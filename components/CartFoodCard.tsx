@@ -30,7 +30,7 @@ export default function CartFoodCard({
   const decrease = () => quantity > 1 && onQuantityChange(quantity - 1);
 
   return (
-    <div className="bg-white dark:bg-[#2c241b] rounded-xl p-4  border-2 border-gray-300 dark:border-white/2 ">
+    <div className="bg-white rounded-xl p-4  border-2 border-gray-300">
       <div className="flex gap-4 sm:gap-6">
         
         {/* Image */}
@@ -43,8 +43,8 @@ export default function CartFoodCard({
           <div className="flex justify-between items-start">
             <div>
               <h3 className="text-lg font-bold">{name}</h3>
-              <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-300 mt-1 line-clamp-2">{description}</p>
-              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+              <p className="text-xs sm:text-sm text-gray-500 mt-1 line-clamp-2">{description}</p>
+              <p className="text-xs text-gray-500 mt-1">
                 Weight: {weight}g
               </p>
               {variant && (
@@ -65,7 +65,7 @@ export default function CartFoodCard({
             
             {/* Quantity */}
             <div className="flex items-center gap-3">
-            <div className="flex items-center bg-gray-50 dark:bg-white/5 rounded-lg border border-gray-300 dark:border-white/10 h-8">
+            <div className="flex items-center bg-gray-50 rounded-lg border border-gray-300 h-8">
                 <button
                     type="button"
                     onClick={decrease}
@@ -78,7 +78,7 @@ export default function CartFoodCard({
                     type="text"
                     readOnly
                     value={quantity}
-                    className="w-8 text-center bg-transparent border-none p-0 text-sm font-medium text-text-main dark:text-white focus:ring-0"
+                    className="w-8 text-center bg-transparent border-none p-0 text-sm font-medium text-gray-900 focus:ring-0"
                 />
 
                 <button

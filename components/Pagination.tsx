@@ -54,7 +54,7 @@ export default function Pagination({
         {/* Previous */}
         <button
           type="button"
-          className="size-10 flex items-center justify-center rounded-lg border border-gray-200 dark:border-white/10 text-gray-500 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="size-10 flex items-center justify-center rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           onClick={() => onPageChange?.(currentPage - 1)}
           disabled={!canGoPrev}
           aria-label="Previous page"
@@ -77,7 +77,7 @@ export default function Pagination({
                 ${
                   page === currentPage
                     ? "bg-primary-green text-white shadow-md shadow-primary-green/30"
-                    : "border border-gray-200 dark:border-white/10 text-text-main dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5"
+                    : "border border-gray-200 text-gray-900 hover:bg-gray-50"
                 }`}
               aria-current={page === currentPage ? "page" : undefined}
             >
@@ -89,7 +89,7 @@ export default function Pagination({
         {/* Next */}
         <button
           type="button"
-          className="size-10 flex items-center justify-center rounded-lg border border-gray-200 dark:border-white/10 text-gray-500 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="size-10 flex items-center justify-center rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           onClick={() => onPageChange?.(currentPage + 1)}
           disabled={!canGoNext}
           aria-label="Next page"
