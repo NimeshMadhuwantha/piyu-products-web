@@ -58,6 +58,7 @@ export default function CartPage() {
                   price={item.price}
                   quantity={item.quantity}
                   image={item.image}
+                  description={item.description}
                   onQuantityChange={(qty) => updateQuantity(item.id, qty)}
                   onRemove={() => removeFromCart(item.id)}
                 />
