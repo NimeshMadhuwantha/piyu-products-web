@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Button from "./button";
+import { useCart } from "@/lib/CartContext";
 
 type Props = {
   id: string;
@@ -10,6 +11,7 @@ type Props = {
   image: string;
   description: string;
   badge?: string;
+  category: string;
 };
 
 export default function FoodCard({
@@ -19,9 +21,12 @@ export default function FoodCard({
   image,
   description,
   badge,
+  category,
 }: Props) {
   const [quantity, setQuantity] = useState(1);
   const [mounted, setMounted] = useState(false);
+  const [isAdded, setIsAdded] = useState(false);
+  const { addToCart } = useCart();
 
   // Load quantity from localStorage after component mounts (client-side only)
   useEffect(() => {
@@ -51,6 +56,22 @@ export default function FoodCard({
 
   const handleIncrease = () => {
     setQuantity((prev) => prev + 1);
+  };
+
+  const handleAddToCart = () => {
+    addToCart({
+      id,
+      name,
+      price,
+      image,
+      description,
+      category,
+      quantity,
+    });
+    
+    // Show feedback
+    setIsAdded(true);
+    setTimeout(() => setIsAdded(false), 2000);
   };
 
   const totalPrice = price * quantity;
@@ -126,7 +147,13 @@ export default function FoodCard({
             <Button variant="secondary">View</Button>
 
             {/* <Button variant="primary" icon={<ShoppingCart size={15} />}> */}
-            <Button variant="primary">Add to Cart</Button>
+            <Button 
+              variant="primary" 
+              onClick={handleAddToCart}
+              className={isAdded ? "bg-green-600 hover:bg-green-700" : ""}
+            >
+              {isAdded ? "Added! ✓" : "Add to Cart"}
+            </Button>
           </div>
         </div>
       </div>
