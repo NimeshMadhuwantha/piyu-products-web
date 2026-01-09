@@ -57,7 +57,7 @@ export default function Navbar() {
           >
             {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
-          <Link href="/cart" className="relative hidden md:block">
+          <Link href="/cart-page" className="relative hidden md:block">
             <ShoppingCart />
           </Link>
         </div>
