@@ -17,8 +17,14 @@ export default function CartPage() {
     [cartItems]
   );
 
-  const tax = subtotal * 0.05;
-  const total = subtotal + tax;
+  const totalWeight = useMemo(
+    () => cartItems.reduce((sum, item) => sum + item.weight * item.quantity, 0),
+    [cartItems]
+  );
+
+  // Calculate shipping: 300 LKR per 1000g
+  const shipping = totalWeight > 0 ? Math.ceil(totalWeight / 1000) * 300 : 0;
+  const total = subtotal + shipping;
 
   return (
     <>
@@ -87,18 +93,21 @@ export default function CartPage() {
                     </span>
                   </div>
 
-                  <div className="flex justify-between">
-                    <span className="text-gray-500">Tax (5%)</span>
-                    <span className="font-bold">LKR {tax.toFixed(2)}</span>
-                  </div>
 
                   <div className="flex justify-between">
                     <span className="text-gray-500">Shipping</span>
-                    <span className="text-green-600 font-bold">Free</span>
+                    <span className={`font-bold ${shipping === 0 ? 'text-green-600' : ''}`}>
+                      {shipping === 0 ? 'Free' : `LKR ${shipping.toLocaleString()}`}
+                    </span>
                   </div>
                 </div>
 
                 <div className="border-t pt-4 mb-6">
+                    
+                  <div className="flex justify-between pb-2">
+                    <span className="text-gray-500 text-sm">Total Weight</span>
+                    <span className="font-medium text-gray-500 text-sm">{totalWeight}g</span>
+                  </div>
                   <div className="flex justify-between items-center">
                     <span className="text-lg font-bold">Total</span>
                     <span className="text-2xl font-black text-primary">
