@@ -16,7 +16,7 @@ export default function BestsellersSection() {
         </h2>
 
         {/* Responsive grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5 lg:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5 lg:gap-6">
           {bestsellerItems.map((item) => (
             <FoodCard
               key={item.id}
@@ -26,6 +26,8 @@ export default function BestsellersSection() {
               image={item.image}
               description={item.description}
               badge={item.badge}
+              category={item.category}
+              weight={item.weight}
             />
           ))}
         </div>

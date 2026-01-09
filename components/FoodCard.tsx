@@ -12,6 +12,7 @@ type Props = {
   description: string;
   badge?: string;
   category: string;
+  weight: number;
 };
 
 export default function FoodCard({
@@ -22,6 +23,7 @@ export default function FoodCard({
   description,
   badge,
   category,
+  weight,
 }: Props) {
   const [quantity, setQuantity] = useState(1);
   const [mounted, setMounted] = useState(false);
@@ -66,6 +68,7 @@ export default function FoodCard({
       image,
       description,
       category,
+      weight,
       quantity,
     });
     
@@ -108,6 +111,9 @@ export default function FoodCard({
           </div>
           <div className="text-xs text-gray-500 dark:text-gray-400 font-medium">
             Unit Price: LKR {price.toFixed(2)}
+          </div>
+          <div className="text-xs text-gray-500 dark:text-gray-400 pt-1 font-medium">
+            Weight: {weight}g
           </div>
         </div>
         {/* Quantity & Buttons */}

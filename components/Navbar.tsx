@@ -47,7 +47,7 @@ export default function Navbar() {
 
         {/* Mobile & Desktop: Hamburger Menu & Cart */}
         <div className="flex items-center gap-4">
-          <Link href="/cart" className="relative md:hidden">
+          <Link href="/cart-page" className="relative md:hidden">
             <ShoppingCart />
           </Link>
           <button

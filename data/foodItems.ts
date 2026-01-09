@@ -6,6 +6,7 @@ export type FoodItem = {
   description: string;
   badge?: string;
   category: string;
+  weight: number;
 };
 
 export const foodItems: FoodItem[] = [
@@ -16,6 +17,7 @@ export const foodItems: FoodItem[] = [
     image: "/assets/images/piti.webp",
     description: "Crunchy peanuts coated in spicy masalunchy peanuts coated in spicy masalaa.",
     category: "Spicy",
+    weight: 250,
   },
   {
     id: "item-2",
@@ -24,6 +26,7 @@ export const foodItems: FoodItem[] = [
     image: "/assets/images/piti.webp",
     description: "Crunchy peanuts coated in spicy masala.",
     category: "Spicy",
+    weight: 100,
   },
   {
     id: "item-3",
@@ -32,6 +35,7 @@ export const foodItems: FoodItem[] = [
     image: "/assets/images/kosBite.webp",
     description: "Crunchy peanuts coated in spicy masala.",
     category: "Savory",
+    weight: 150,
   },
   {
     id: "item-4",
@@ -40,6 +44,7 @@ export const foodItems: FoodItem[] = [
     image: "/assets/images/piti.webp",
     description: "Crunchy peanuts coated in spicy masala.",
     category: "Spicy",
+    weight: 200,
   },
   {
     id: "item-5",
@@ -48,6 +53,7 @@ export const foodItems: FoodItem[] = [
     image: "/assets/images/piti.webp",
     description: "Crunchy peanuts coated in spicy masala.",
     category: "Sweet",
+    weight: 300,
   },
   {
     id: "item-6",
@@ -56,6 +62,7 @@ export const foodItems: FoodItem[] = [
     image: "/assets/images/piti.webp",
     description: "Crunchy peanuts coated in spicy masala.",
     category: "Sweet",
+    weight: 75,
   },
   {
     id: "item-7",
@@ -64,6 +71,7 @@ export const foodItems: FoodItem[] = [
     image: "/assets/images/piti.webp",
     description: "Crunchy peanuts coated in spicy masalunchy peanuts coated in spicy masalaa.",
     category: "Spicy",
+    weight: 250,
   },
   {
     id: "item-8",
@@ -72,6 +80,7 @@ export const foodItems: FoodItem[] = [
     image: "/assets/images/piti.webp",
     description: "Crunchy peanuts coated in spicy masala.",
     category: "Spicy",
+    weight: 100,
   },
   {
     id: "item-9",
@@ -80,6 +89,7 @@ export const foodItems: FoodItem[] = [
     image: "/assets/images/kosBite.webp",
     description: "Crunchy peanuts coated in spicy masala.",
     category: "Savory",
+    weight: 150,
   },
   {
     id: "item-10",
@@ -88,6 +98,7 @@ export const foodItems: FoodItem[] = [
     image: "/assets/images/piti.webp",
     description: "Crunchy peanuts coated in spicy masala.",
     category: "Spicy",
+    weight: 200,
   },
   {
     id: "item-11",
@@ -96,6 +107,7 @@ export const foodItems: FoodItem[] = [
     image: "/assets/images/piti.webp",
     description: "Crunchy peanuts coated in spicy masala.",
     category: "Sweet",
+    weight: 300,
   },
   {
     id: "item-12",
@@ -104,6 +116,7 @@ export const foodItems: FoodItem[] = [
     image: "/assets/images/piti.webp",
     description: "Crunchy peanuts coated in spicy masala.",
     category: "Sweet",
+    weight: 75,
   },
   {
     id: "item-13",
@@ -112,5 +125,6 @@ export const foodItems: FoodItem[] = [
     image: "/assets/images/piti.webp",
     description: "Crunchy peanuts coated in spicy masalunchy peanuts coated in spicy masalaa.",
     category: "Spicy",
+    weight: 250,
   },
 ];

@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { foodItems } from "@/data/foodItems";
 
 export type CartItem = {
   id: string;
@@ -10,6 +11,7 @@ export type CartItem = {
   image: string;
   description: string;
   category: string;
+  weight: number;
 };
 
 type CartContextType = {
@@ -34,7 +36,17 @@ export function CartProvider({ children }: { children: ReactNode }) {
     const savedCart = localStorage.getItem("shopping-cart");
     if (savedCart) {
       try {
-        setCartItems(JSON.parse(savedCart));
+        const parsedCart = JSON.parse(savedCart);
+        // Migrate old cart items that don't have weight field
+        const migratedCart = parsedCart.map((item: CartItem) => {
+          if (!item.weight || item.weight === 0) {
+            // Look up the correct weight from foodItems data
+            const foodItem = foodItems.find(f => f.id === item.id);
+            return { ...item, weight: foodItem?.weight || 100 };
+          }
+          return item;
+        });
+        setCartItems(migratedCart);
       } catch (e) {
         console.error("Failed to load cart from localStorage", e);
       }

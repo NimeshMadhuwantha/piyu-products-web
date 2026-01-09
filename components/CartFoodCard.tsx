@@ -9,6 +9,7 @@ type Props = {
   quantity: number;
   image: string;
   description: string;
+  weight: number;
   variant?: string;
   onQuantityChange: (qty: number) => void;
   onRemove: () => void;
@@ -20,6 +21,7 @@ export default function CartFoodCard({
   quantity,
   image,
   description,
+  weight,
   variant,
   onQuantityChange,
   onRemove,
@@ -42,6 +44,9 @@ export default function CartFoodCard({
             <div>
               <h3 className="text-lg font-bold">{name}</h3>
               <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-300 mt-1 line-clamp-2">{description}</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                Weight: {weight}g
+              </p>
               {variant && (
                 <p className="text-sm text-gray-500 font-medium">{variant}</p>
               )}
@@ -85,9 +90,14 @@ export default function CartFoodCard({
                 </button>
             </div>
 
-              <span className="text-xs text-gray-500">
-                LKR {price.toLocaleString()} / unit
-              </span>
+              <div className="flex flex-col">
+                <span className="text-xs text-gray-500">
+                  LKR {price.toLocaleString()} / unit
+                </span>
+                <span className="text-xs text-gray-500">
+                  Total Weight: {weight * quantity}g
+                </span>
+              </div>
             </div>
 
             {/* Total */}
