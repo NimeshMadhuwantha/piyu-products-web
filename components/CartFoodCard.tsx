@@ -41,7 +41,7 @@ export default function CartFoodCard({
           <div className="flex justify-between items-start">
             <div>
               <h3 className="text-lg font-bold">{name}</h3>
-              <p className="text-sm text-gray-500 dark:text-gray-300 mt-1 line-clamp-2">{description}</p>
+              <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-300 mt-1 line-clamp-2">{description}</p>
               {variant && (
                 <p className="text-sm text-gray-500 font-medium">{variant}</p>
               )}
