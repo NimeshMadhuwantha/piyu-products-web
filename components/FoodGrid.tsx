@@ -19,7 +19,7 @@ export default function FoodGrid({ items }: Props) {
         // Avoid passing non-card props down to FoodCard.
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { category, ...cardProps } = item;
-        return <FoodCard key={item.id} {...cardProps} />;
+        return <FoodCard category={""} weight={0} key={item.id} {...cardProps} />;
       })}
     </div>
   );

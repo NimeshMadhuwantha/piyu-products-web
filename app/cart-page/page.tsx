@@ -33,36 +33,37 @@ export default function CartPage() {
       return;
     }
 
-    // Build the order summary message
-    let message = "*🛒 NEW ORDER*\n";
-    message += "═══════════════════════\n\n";
-    
-    // Add each item details
-    cartItems.forEach((item, index) => {
-      const itemTotal = item.price * item.quantity;
-      const itemTotalWeight = item.weight * item.quantity;
-      
-      message += `*${index + 1}. ${item.name}*\n`;
-      message += `   💰 Unit Price: LKR ${item.price.toLocaleString()}\n`;
-      message += `   📦 Quantity: ${item.quantity}\n`;
-      message += `   ⚖️ Unit Weight: ${item.weight}g\n`;
-      message += `   📊 Total Weight: ${itemTotalWeight}g\n`;
-      message += `   💵 Subtotal: LKR ${itemTotal.toLocaleString()}\n`;
-      message += `\n`;
-    });
+// Build WhatsApp order message (emoji-safe)
+let message = "*NEW ORDER*\n";
+message += "=====================\n\n";
 
-    message += "═══════════════════════\n";
-    message += "*📋 ORDER SUMMARY*\n";
-    message += `Total Items: ${cartItems.length}\n`;
-    message += `Total Weight: ${totalWeight}g\n`;
-    message += `Subtotal: LKR ${subtotal.toLocaleString()}\n`;
-    message += `Shipping Cost: ${shipping === 0 ? 'Free' : `LKR ${shipping.toLocaleString()}`}\n`;
-    message += `\n*💰 TOTAL: LKR ${total.toFixed(2)}*\n`;
-    message += "═══════════════════════\n";
-    message += "\n📍 Payment: Cash on Delivery";
+cartItems.forEach((item, index) => {
+  const itemTotal = item.price * item.quantity;
+  const itemTotalWeight = item.weight * item.quantity;
 
-    // Encode message for URL
-    const encodedMessage = encodeURIComponent(message);
+  message += `*${index + 1}. ${item.name}*\n`;
+  message += `• Unit Price: LKR ${item.price.toLocaleString()}\n`;
+  message += `• Quantity: ${item.quantity}\n`;
+  message += `• Unit Weight: ${item.weight}g\n`;
+  message += `• Total Weight: ${itemTotalWeight}g\n`;
+  message += `• Subtotal: LKR ${itemTotal.toLocaleString()}\n\n`;
+});
+
+message += "=====================\n";
+message += "*ORDER SUMMARY*\n";
+message += `• Total Items: ${cartItems.length}\n`;
+message += `• Total Weight: ${totalWeight}g\n`;
+message += `• Subtotal: LKR ${subtotal.toLocaleString()}\n`;
+message += `• Shipping: ${
+  shipping === 0 ? "Free" : `LKR ${shipping.toLocaleString()}`
+}\n\n`;
+message += `*TOTAL: LKR ${total.toFixed(2)}*\n`;
+message += "=====================\n";
+message += "Payment: Cash on Delivery";
+
+// MUST encode
+const encodedMessage = encodeURIComponent(message);
+
     
     // WhatsApp business number
     const phoneNumber = "94769963432"; // Remove spaces and + from +94 76 996 3432
@@ -128,7 +129,7 @@ export default function CartPage() {
 
             {/* Right */}
             <div className="lg:col-span-4 sticky top-24">
-              <div className="bg-white dark:bg-[#2c241b] rounded-xl p-6 border-2 border-gray-300 dark:border-white/2">
+              <div className="bg-white rounded-xl p-6 border-2 border-gray-300">
                 <h3 className="text-xl font-bold mb-6">Order Summary</h3>
 
                 <div className="space-y-4 mb-6">
