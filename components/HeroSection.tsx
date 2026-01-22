@@ -21,7 +21,7 @@ export default function HeroSection() {
         <p className="mb-8">
           Authentic traditional snacks made with love and pure ingredients.
         </p>
-        <Button text="Explore Foods" />
+        <Button>Explore Foods</Button>
       </div>
     </section>
   );
