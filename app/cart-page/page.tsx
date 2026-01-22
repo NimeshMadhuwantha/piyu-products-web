@@ -1,16 +1,18 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import Button from "@/components/button";
 import Link from "next/link";
 import CartFoodCard from "@/components/CartFoodCard";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useCart } from "@/lib/CartContext";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, ChevronDown, ChevronUp } from "lucide-react";
 
 export default function CartPage() {
   const { cartItems, updateQuantity, removeFromCart } = useCart();
+  const [shippingMethod, setShippingMethod] = useState<"Qurior" | "Sl Post">("Qurior");
+  const [isShippingDropdownOpen, setIsShippingDropdownOpen] = useState(false);
 
   const subtotal = useMemo(
     () => cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0),
@@ -22,8 +24,30 @@ export default function CartPage() {
     [cartItems]
   );
 
-  // Calculate shipping: 300 LKR per 1000g
-  const shipping = totalWeight > 0 ? Math.ceil(totalWeight / 1000) * 300 : 0;
+  // Calculate shipping based on selected method
+  const shipping = useMemo(() => {
+    if (totalWeight === 0) return 0;
+
+    if (shippingMethod === "Qurior") {
+      // 0-1300g: 400 LKR, then +130 LKR per 1000g
+      if (totalWeight <= 1300) {
+        return 400;
+      } else {
+        const extraWeight = totalWeight - 1300;
+        const extra1000s = Math.ceil(extraWeight / 1000);
+        return 400 + (extra1000s * 130);
+      }
+    } else {
+      // SL Post rates
+      if (totalWeight <= 250) return 150;
+      if (totalWeight <= 500) return 200;
+      if (totalWeight <= 1000) return 250;
+      if (totalWeight <= 2000) return 300;
+      // For weights above 2000g, you may want to add more logic
+      return 300; // Default for > 2000g
+    }
+  }, [totalWeight, shippingMethod]);
+
   const total = subtotal + shipping;
 
   // Function to create WhatsApp order message
@@ -54,6 +78,7 @@ message += "*ORDER SUMMARY*\n";
 message += `• Total Items: ${cartItems.length}\n`;
 message += `• Total Weight: ${totalWeight}g\n`;
 message += `• Subtotal: LKR ${subtotal.toLocaleString()}\n`;
+message += `• Shipping Method: ${shippingMethod}\n`;
 message += `• Shipping: ${
   shipping === 0 ? "Free" : `LKR ${shipping.toLocaleString()}`
 }\n\n`;
@@ -140,6 +165,38 @@ const encodedMessage = encodeURIComponent(message);
                     </span>
                   </div>
 
+                  {/* Shipping Method Selector */}
+                  <div className="flex items-center justify-between relative">
+                    <span className="text-gray-500">Shipping Method</span>
+                    <div className="relative">
+                      <button
+                        onClick={() => setIsShippingDropdownOpen(!isShippingDropdownOpen)}
+                        className="py-2 px-3 rounded-lg border-2 border-gray-300 bg-white text-gray-700 font-medium hover:border-primary transition-all flex items-center justify-between text-sm w-[100px]"
+                      >
+                        <span>{shippingMethod}</span>
+                        {isShippingDropdownOpen ? (
+                          <ChevronUp className="w-4 h-4" />
+                        ) : (
+                          <ChevronDown className="w-4 h-4" />
+                        )}
+                      </button>
+                      
+                      {/* Dropdown Options - Only show the other option */}
+                      {isShippingDropdownOpen && (
+                        <div className="absolute z-10 right-0 mt-1 bg-white border-2 border-gray-300 rounded-lg shadow-lg overflow-hidden w-[100px]">
+                          <button
+                            onClick={() => {
+                              setShippingMethod(shippingMethod === "Qurior" ? "Sl Post" : "Qurior");
+                              setIsShippingDropdownOpen(false);
+                            }}
+                            className="w-full py-2 px-3 text-left font-medium text-sm bg-white text-gray-700 hover:bg-gray-100 transition-all"
+                          >
+                            {shippingMethod === "Qurior" ? "SL Post" : "Qurior"}
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  </div>
 
                   <div className="flex justify-between">
                     <span className="text-gray-500">Shipping</span>
