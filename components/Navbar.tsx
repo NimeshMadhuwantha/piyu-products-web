@@ -38,7 +38,7 @@ export default function Navbar() {
             <Link
               key={link.href}
               href={link.href}
-              className={isActive(link.href) ? "text-green-400" : "text-black hover:text-gray-700 transition-colors"}
+              className={isActive(link.href) ? "text-primary-green" : "text-black hover:text-gray-700 transition-colors"}
             >
               {link.label}
             </Link>
@@ -47,7 +47,7 @@ export default function Navbar() {
 
         {/* Mobile & Desktop: Hamburger Menu & Cart */}
         <div className="flex items-center gap-4">
-          <Link href="/cart" className="relative md:hidden">
+          <Link href="/cart-page" className="relative md:hidden">
             <ShoppingCart />
           </Link>
           <button
@@ -57,7 +57,7 @@ export default function Navbar() {
           >
             {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
-          <Link href="/cart" className="relative hidden md:block">
+          <Link href="/cart-page" className="relative hidden md:block">
             <ShoppingCart />
           </Link>
         </div>
@@ -74,7 +74,7 @@ export default function Navbar() {
                 onClick={() => setIsMenuOpen(false)}
                 className={`text-sm font-bold py-2 ${
                   isActive(link.href) 
-                    ? "text-green-400" 
+                    ? "text-primary-green" 
                     : "text-black hover:text-gray-700 transition-colors"
                 }`}
               >
