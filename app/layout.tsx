@@ -1,12 +1,7 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "@/lib/CartContext";
-
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-});
+import { OrderProvider } from "@/lib/OrderContext";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -21,10 +16,12 @@ export default function RootLayout({
   return (
     <html lang="en" className="light">
       <body
-        className={`${inter.variable} antialiased bg-white font-sans`}
+        className="antialiased bg-white font-sans"
       >
         <CartProvider>
-          {children}
+          <OrderProvider>
+            {children}
+          </OrderProvider>
         </CartProvider>
       </body>
     </html>

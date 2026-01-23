@@ -9,10 +9,12 @@ import Footer from "@/components/Footer";
 import OrderModal, { OrderFormData } from "@/components/OrderModal";
 import PaymentConfirmation from "@/components/PaymentConfirmation";
 import { useCart } from "@/lib/CartContext";
+import { useOrder } from "@/lib/OrderContext";
 import { ChevronLeft, ChevronDown, ChevronUp } from "lucide-react";
 
 export default function CartPage() {
-  const { cartItems, updateQuantity, removeFromCart } = useCart();
+  const { cartItems, updateQuantity, removeFromCart, clearCart } = useCart();
+  const { addOrder } = useOrder();
   const [shippingMethod, setShippingMethod] = useState<"Qurior" | "Sl Post">("Qurior");
   const [isShippingDropdownOpen, setIsShippingDropdownOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -65,6 +67,37 @@ export default function CartPage() {
   // Function to send WhatsApp order
   const sendWhatsAppOrder = () => {
     if (!customerData) return;
+    
+    // Generate unique order ID
+    const orderId = Date.now().toString();
+    
+    // Save order to OrderContext
+    addOrder({
+      orderId,
+      items: cartItems.map(item => ({
+        id: item.id,
+        name: item.name,
+        price: item.price,
+        quantity: item.quantity,
+        image: item.image,
+        weight: item.weight,
+      })),
+      subtotal,
+      totalWeight,
+      shippingMethod,
+      shipping,
+      total,
+      customerDetails: {
+        name: customerData.name,
+        address: customerData.address,
+        district: customerData.district,
+        mobile1: customerData.mobile1,
+        mobile2: customerData.mobile2,
+        needDate: customerData.needDate,
+      },
+      orderDate: new Date().toISOString(),
+    });
+    
     // Build WhatsApp order message with customer details
     let message = "*NEW ORDER*\n";
     message += "=====================\n\n";
@@ -123,6 +156,9 @@ export default function CartPage() {
     // Open WhatsApp with pre-filled message
     const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
     window.open(whatsappURL, "_blank");
+    
+    // Clear the cart after sending order
+    clearCart();
     
     // Close modals after sending
     setIsPaymentModalOpen(false);
