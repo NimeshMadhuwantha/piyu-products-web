@@ -41,11 +41,7 @@ export default function OrderPage() {
               <OrderSummaryCard
                 key={order.orderId}
                 order={order}
-                onDelete={() => {
-                  if (confirm("Are you sure you want to delete this order?")) {
-                    removeOrder(order.orderId);
-                  }
-                }}
+                onDelete={() => removeOrder(order.orderId)}
               />
             ))}
           </div>

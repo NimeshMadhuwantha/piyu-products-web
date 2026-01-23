@@ -1,7 +1,9 @@
 "use client";
 
+import { useState } from "react";
 import { Trash2 } from "lucide-react";
 import Button from "@/components/button";
+import ConfirmationModal from "@/components/ConfirmationModal";
 import { OrderData } from "@/lib/OrderContext";
 import { useCart } from "@/lib/CartContext";
 
@@ -12,6 +14,7 @@ type OrderSummaryCardProps = {
 
 export default function OrderSummaryCard({ order, onDelete }: OrderSummaryCardProps) {
   const { addToCart, clearCart } = useCart();
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const handleReturnToCart = () => {
     // Clear existing cart first
@@ -34,6 +37,14 @@ export default function OrderSummaryCard({ order, onDelete }: OrderSummaryCardPr
     // Optionally navigate to cart page
     window.location.href = "/cart-page";
   };
+const handleDeleteClick = () => {
+    setIsDeleteModalOpen(true);
+  };
+
+  const handleConfirmDelete = () => {
+    setIsDeleteModalOpen(false);
+    onDelete();
+  };
 
   return (
     <div className="bg-white rounded-xl border-2 border-gray-300 p-6 shadow-sm hover:shadow-md transition-shadow">
@@ -44,7 +55,7 @@ export default function OrderSummaryCard({ order, onDelete }: OrderSummaryCardPr
           <p className="text-sm text-gray-500">{new Date(order.orderDate).toLocaleString()}</p>
         </div>
         <button
-          onClick={onDelete}
+          onClick={handleDeleteClick}
           className="text-gray-400 hover:text-black transition"
           aria-label="Delete order"
         >
@@ -137,8 +148,17 @@ export default function OrderSummaryCard({ order, onDelete }: OrderSummaryCardPr
         className="w-full py-3"
         onClick={handleReturnToCart}
       >
-        Return to Cart
+        Order Return to Cart
       </Button>
+
+      {/* Confirmation Modal */}
+      <ConfirmationModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        onConfirm={handleConfirmDelete}
+        title="Delete Order"
+        message="Are you sure you want to delete this order? This action cannot be undone."
+      />
     </div>
   );
 }
