@@ -21,3 +21,19 @@ body {
   color: #171717;
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Hide scrollbar for modal */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Reduce select option height */
+select option {
+  padding: 8px;
+  line-height: 1.4;
+}

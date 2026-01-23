@@ -4,10 +4,14 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ShoppingCart, Menu, X } from "lucide-react";
 import { useState } from "react";
+import { useCart } from "@/lib/CartContext";
 
 export default function Navbar() {
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { cartItems } = useCart();
+
+  const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
   const navLinks = [
     { href: "/", label: "Home" },
@@ -49,6 +53,11 @@ export default function Navbar() {
         <div className="flex items-center gap-4">
           <Link href="/cart-page" className="relative md:hidden">
             <ShoppingCart />
+            {cartCount > 0 && (
+              <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                {cartCount}
+              </span>
+            )}
           </Link>
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -59,6 +68,11 @@ export default function Navbar() {
           </button>
           <Link href="/cart-page" className="relative hidden md:block">
             <ShoppingCart />
+            {cartCount > 0 && (
+              <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                {cartCount}
+              </span>
+            )}
           </Link>
         </div>
       </div>
