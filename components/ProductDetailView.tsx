@@ -143,12 +143,20 @@ export default function ProductDetailView({ item }: Props) {
               </div>
 
               {/* Price */}
-              <div className="bg-gray-50 rounded-xl p-5 border border-gray-200">
-                <div className="text-3xl font-bold text-gray-900">
-                  LKR {totalPrice.toFixed(2)}
-                </div>
-                <div className="text-sm text-gray-600 mt-1">
-                  Unit Price: LKR {item.price.toFixed(2)} | Weight: {item.weight}g
+              <div className="bg-gradient-to-br  bg-green-50 rounded-xl p-6 ">
+                <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-2">
+                  <div>
+                    <p className="text-xs uppercase tracking-wide text-gray-500 font-semibold mb-1">Unit Price</p>
+                    <div className="text-4xl md:text-4xl font-extrabold text-gray-900">
+                      LKR {item.price.toFixed(2)}
+                    </div>
+                  </div>
+                  <div className="sm:text-right">
+                    <p className="text-xs uppercase tracking-wide text-gray-500 font-semibold mb-1">Weight</p>
+                    <div className="text-xl font-bold text-gray-700">
+                      {item.weight}g
+                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -203,6 +211,18 @@ export default function ProductDetailView({ item }: Props) {
                     >
                       +
                     </button>
+                  </div>
+                </div>
+
+                {/* Total Price and Weight */}
+                <div className="bg-gradient-to-br from-primary/5 to-primary/10 rounded-xl p-4 mb-4">
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="text-sm font-semibold text-gray-700">Total Price:</span>
+                    <span className="text-2xl font-extrabold text-primary">LKR {totalPrice.toFixed(2)}</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm font-semibold text-gray-700">Total Weight:</span>
+                    <span className="text-lg font-bold text-gray-800">{(item.weight * quantity).toFixed(0)}g</span>
                   </div>
                 </div>
 
