@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "@/lib/CartContext";
+import { OrderProvider } from "@/lib/OrderContext";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -24,7 +25,9 @@ export default function RootLayout({
         className={`${inter.variable} antialiased bg-white font-sans`}
       >
         <CartProvider>
-          {children}
+          <OrderProvider>
+            {children}
+          </OrderProvider>
         </CartProvider>
       </body>
     </html>
