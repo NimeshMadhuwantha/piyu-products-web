@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Button from "./button";
 import { useCart } from "@/lib/CartContext";
+import { useRouter } from "next/navigation";
 
 type Props = {
   id: string;
@@ -25,6 +26,7 @@ export default function FoodCard({
   category,
   weight,
 }: Props) {
+  const router = useRouter();
   const [quantity, setQuantity] = useState(1);
   const [mounted, setMounted] = useState(false);
   const [isAdded, setIsAdded] = useState(false);
@@ -75,6 +77,10 @@ export default function FoodCard({
     // Show feedback
     setIsAdded(true);
     setTimeout(() => setIsAdded(false), 2000);
+  };
+
+  const handleViewDetails = () => {
+    router.push(`/food-description/${id}`);
   };
 
   const totalPrice = price * quantity;
@@ -150,7 +156,7 @@ export default function FoodCard({
           </div>
 
           <div className="grid grid-cols-2 gap-3">
-            <Button variant="secondary">View</Button>
+            <Button variant="secondary" onClick={handleViewDetails}>View</Button>
 
             {/* <Button variant="primary" icon={<ShoppingCart size={15} />}> */}
             <Button 
