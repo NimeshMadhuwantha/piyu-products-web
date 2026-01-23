@@ -128,8 +128,15 @@ export default function OrderModal({ isOpen, onClose, onSubmit }: OrderModalProp
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto relative scrollbar-hide" style={{scrollbarWidth: 'none', msOverflowStyle: 'none'}}>
+    <div 
+      className="fixed inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center z-[9999] p-4"
+      onClick={onClose}
+    >
+      <div 
+        className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto relative shadow-2xl scrollbar-hide" 
+        style={{scrollbarWidth: 'none', msOverflowStyle: 'none'}}
+        onClick={(e) => e.stopPropagation()}
+      >
         {/* Header */}
         <div className="sticky top-0 bg-white border-b-2 border-gray-200 px-6 py-4 flex items-center justify-between rounded-t-2xl z-10">
           <button
