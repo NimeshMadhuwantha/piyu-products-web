@@ -6,6 +6,8 @@ import Link from "next/link";
 import CartFoodCard from "@/components/CartFoodCard";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import OrderModal, { OrderFormData } from "@/components/OrderModal";
+import PaymentConfirmation from "@/components/PaymentConfirmation";
 import { useCart } from "@/lib/CartContext";
 import { ChevronLeft, ChevronDown, ChevronUp } from "lucide-react";
 
@@ -13,6 +15,9 @@ export default function CartPage() {
   const { cartItems, updateQuantity, removeFromCart } = useCart();
   const [shippingMethod, setShippingMethod] = useState<"Qurior" | "Sl Post">("Qurior");
   const [isShippingDropdownOpen, setIsShippingDropdownOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+  const [customerData, setCustomerData] = useState<OrderFormData | null>(null);
 
   const subtotal = useMemo(
     () => cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0),
@@ -50,53 +55,88 @@ export default function CartPage() {
 
   const total = subtotal + shipping;
 
-  // Function to create WhatsApp order message
+  // Function to handle order form submission
+  const handleOrderFormSubmit = (formData: OrderFormData) => {
+    setCustomerData(formData);
+    setIsModalOpen(false);
+    setIsPaymentModalOpen(true);
+  };
+
+  // Function to send WhatsApp order
   const sendWhatsAppOrder = () => {
-    if (cartItems.length === 0) {
-      alert("Your cart is empty!");
-      return;
-    }
+    if (!customerData) return;
+    // Build WhatsApp order message with customer details
+    let message = "*NEW ORDER*\n";
+    message += "=====================\n\n";
+  
+    message += "*ORDER ITEMS*\n\n";
 
-// Build WhatsApp order message (emoji-safe)
-let message = "*NEW ORDER*\n";
-message += "=====================\n\n";
+    cartItems.forEach((item, index) => {
+      const itemTotal = item.price * item.quantity;
+      const itemTotalWeight = item.weight * item.quantity;
 
-cartItems.forEach((item, index) => {
-  const itemTotal = item.price * item.quantity;
-  const itemTotalWeight = item.weight * item.quantity;
+      message += `*${index + 1}. ${item.name}*\n`;
+      message += `• Unit Price: LKR ${item.price.toLocaleString()}\n`;
+      message += `• Quantity: ${item.quantity}\n`;
+      message += `• Unit Weight: ${item.weight}g\n`;
+      message += `• Total Weight: ${itemTotalWeight}g\n`;
+      message += `• Subtotal: LKR ${itemTotal.toLocaleString()}\n\n`;
+    });
 
-  message += `*${index + 1}. ${item.name}*\n`;
-  message += `• Unit Price: LKR ${item.price.toLocaleString()}\n`;
-  message += `• Quantity: ${item.quantity}\n`;
-  message += `• Unit Weight: ${item.weight}g\n`;
-  message += `• Total Weight: ${itemTotalWeight}g\n`;
-  message += `• Subtotal: LKR ${itemTotal.toLocaleString()}\n\n`;
-});
-
-message += "=====================\n";
-message += "*ORDER SUMMARY*\n";
-message += `• Total Items: ${cartItems.length}\n`;
-message += `• Total Weight: ${totalWeight}g\n`;
-message += `• Subtotal: LKR ${subtotal.toLocaleString()}\n`;
-message += `• Shipping Method: ${shippingMethod}\n`;
-message += `• Shipping: ${
-  shipping === 0 ? "Free" : `LKR ${shipping.toLocaleString()}`
-}\n\n`;
-message += `*TOTAL: LKR ${total.toFixed(2)}*\n`;
-message += "=====================\n";
-message += "Payment: Cash on Delivery";
-
-// MUST encode
-const encodedMessage = encodeURIComponent(message);
-
+    message += "=====================\n";
+    message += "*ORDER SUMMARY*\n";
+    message += `• Total Items: ${cartItems.length}\n`;
+    message += `• Total Weight: ${totalWeight}g\n`;
+    message += `• Subtotal: LKR ${subtotal.toLocaleString()}\n`;
+    message += `• Shipping Method: ${shippingMethod}\n`;
+    message += `• Shipping: ${
+      shipping === 0 ? "Free" : `LKR ${shipping.toLocaleString()}`
+    }\n\n`;
+    message += `*TOTAL: LKR ${total.toFixed(2)}*\n\n`;
     
+    message += "=====================\n";
+    message += "*CUSTOMER DETAILS*\n";
+    message += `• Name: ${customerData.name}\n`;
+    message += `• Address: ${customerData.address}\n`;
+    message += `• District: ${customerData.district}\n`;
+    message += `• Mobile: ${customerData.mobile1}\n`;
+    if (customerData.mobile2) {
+      message += `• Alt. Mobile: ${customerData.mobile2}\n`;
+    }
+    message += `• Need Date: ${customerData.needDate}\n\n`;
+    
+    message += "=====================\n";
+    message += "*PAYMENT DETAILS*\n";
+    message += "• Bank: Bank of Ceylon (BOC)\n";
+    message += "• Account Number: 92392392734\n";
+    message += "• Account Name: Piyu Products\n\n";
+    message += "🔷 *IMPORTANT*\n";
+    message += "After payment, please send the payment receipt to this WhatsApp number to confirm your order.\n";
+    message += "ගෙවීමෙන් පසු, ඔබගේ ඇණවුම තහවුරු කිරීමට කරුණාකර ගෙවීම් රිසිට්පත මෙම WhatsApp අංකයට එවන්න.";
+
+    // MUST encode
+    const encodedMessage = encodeURIComponent(message);
+
     // WhatsApp business number
-    const phoneNumber = "94769963432"; // Remove spaces and + from +94 76 996 3432
+    const phoneNumber = "94769963432";
     
     // Open WhatsApp with pre-filled message
     const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
     window.open(whatsappURL, "_blank");
+    
+    // Close modals after sending
+    setIsPaymentModalOpen(false);
+    setIsModalOpen(false);
   };
+
+// Function to open modal
+const handlePlaceOrder = () => {
+  if (cartItems.length === 0) {
+    alert("Your cart is empty!");
+    return;
+  }
+  setIsModalOpen(true);
+};
 
   return (
     <>
@@ -225,7 +265,7 @@ const encodedMessage = encodeURIComponent(message);
                 <Button 
                   variant="primary" 
                   className="w-full py-4 text-lg"
-                  onClick={sendWhatsAppOrder}
+                  onClick={handlePlaceOrder}
                 >
                   Place Order via WhatsApp
                 </Button>
@@ -233,6 +273,25 @@ const encodedMessage = encodeURIComponent(message);
             </div>
           </div>
         )}
+        
+        <OrderModal 
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          onSubmit={handleOrderFormSubmit}
+        />
+
+        <PaymentConfirmation 
+          isOpen={isPaymentModalOpen}
+          onClose={() => {
+            setIsPaymentModalOpen(false);
+            setIsModalOpen(false);
+          }}
+          onBack={() => {
+            setIsPaymentModalOpen(false);
+            setIsModalOpen(true);
+          }}
+          onPlaceOrder={sendWhatsAppOrder}
+        />
       </main>
 
       <Footer />
