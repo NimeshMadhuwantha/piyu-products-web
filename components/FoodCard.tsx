@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Button from "./button";
 import { useCart } from "@/lib/CartContext";
+import { useRouter } from "next/navigation";
 
 type Props = {
   id: string;
@@ -25,6 +26,7 @@ export default function FoodCard({
   category,
   weight,
 }: Props) {
+  const router = useRouter();
   const [quantity, setQuantity] = useState(1);
   const [mounted, setMounted] = useState(false);
   const [isAdded, setIsAdded] = useState(false);
@@ -77,10 +79,14 @@ export default function FoodCard({
     setTimeout(() => setIsAdded(false), 2000);
   };
 
+  const handleViewDetails = () => {
+    router.push(`/food-description/${id}`);
+  };
+
   const totalPrice = price * quantity;
 
   return (
-    <div className="group bg-white rounded-2xl border-2 border-gray-200 shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_24px_rgba(0,0,0,0.1)] transition-all duration-300 flex flex-col overflow-hidden hover:-translate-y-1">
+    <div className="group bg-white rounded-2xl border-2 border-gray-200 shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_24px_rgba(0,0,0,0.1)] transition-all duration-300 flex flex-col overflow-hidden hover:-translate-y-1 w-full max-w-[320px] mx-auto my-2 sm:mx-0 sm:my-0 sm:max-w-none">
       {/* Image */}
       <div className="aspect-4/3 w-full bg-gray-100 relative overflow-hidden">
         <div
@@ -95,7 +101,7 @@ export default function FoodCard({
       </div>
 
       {/* Content */}
-      <div className="p-4 flex flex-col grow gap-2">
+      <div className="p-3 sm:p-4 flex flex-col grow gap-2">
         <div className="flex justify-between items-start">
           <h3 className="font-bold text-lg text-gray-900 leading-tight">
             {name}
@@ -150,7 +156,7 @@ export default function FoodCard({
           </div>
 
           <div className="grid grid-cols-2 gap-3">
-            <Button variant="secondary">View</Button>
+            <Button variant="secondary" onClick={handleViewDetails}>View</Button>
 
             {/* <Button variant="primary" icon={<ShoppingCart size={15} />}> */}
             <Button 

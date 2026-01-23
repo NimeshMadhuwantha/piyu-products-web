@@ -142,6 +142,17 @@ const handleDeleteClick = () => {
         </div>
       </div>
 
+      {/* Payment Bank Details */}
+      <div className="mb-4 bg-green-50 rounded-lg p-4 border border-green-200">
+        <h4 className="text-sm font-bold text-gray-800 mb-2">Payment Details / ගෙවීම් විස්තර</h4>
+        <div className="space-y-1 text-sm">
+          <p className="text-gray-700"><span className="font-medium">Bank:</span> Commercial Bank</p>
+          <p className="text-gray-700"><span className="font-medium">Account:</span> Piyu Products - 1234567890</p>
+                    <p className="text-gray-700"><span className="font-medium">Branch:</span> Middeniya</p>
+          <p className="text-xs text-gray-600 mt-2">Pay and send receipt via WhatsApp / ගෙවා රිසිට්පත WhatsApp එවන්න</p>
+        </div>
+      </div>
+
       {/* Return to Cart Button */}
       <Button
         variant="primary"
