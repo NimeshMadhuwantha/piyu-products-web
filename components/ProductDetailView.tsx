@@ -5,6 +5,7 @@ import { FoodItem } from "@/data/foodItems";
 import Button from "./button";
 import { useCart } from "@/lib/CartContext";
 import { ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 type Props = {
@@ -59,15 +60,15 @@ export default function ProductDetailView({ item }: Props) {
   const totalPrice = item.price * quantity;
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-gray-50 pt-4 pb-8">
       <div className="container mx-auto px-4 max-w-7xl">
         {/* Back Button */}
         <button
           onClick={handleBack}
-          className="flex items-center gap-2 text-gray-600 hover:text-primary mb-6 transition-colors"
+          className="inline-flex items-center gap-2 text-primary font-bold text-sm mt-4 pb-8"
         >
-          <ArrowLeft size={20} />
-          <span className="font-medium">Back to Products</span>
+          <ChevronLeft className="w-4 h-4" />
+          Back to Products
         </button>
 
         <div className="bg-white rounded-3xl shadow-lg overflow-hidden p-6 md:p-10">
