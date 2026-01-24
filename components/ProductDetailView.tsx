@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FoodItem } from "@/data/foodItems";
 import Button from "./button";
 import { useCart } from "@/lib/CartContext";
 import { ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 type Props = {
@@ -16,9 +17,22 @@ export default function ProductDetailView({ item }: Props) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [isAdded, setIsAdded] = useState(false);
+  const [touchStart, setTouchStart] = useState(0);
+  const [touchEnd, setTouchEnd] = useState(0);
   const { addToCart } = useCart();
 
   const images = item.images || [item.image];
+
+  // Auto-slide images every 2 seconds
+  useEffect(() => {
+    if (images.length > 1) {
+      const interval = setInterval(() => {
+        setCurrentImageIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
+      }, 8000);
+
+      return () => clearInterval(interval);
+    }
+  }, [images.length]);
 
   const handlePrevImage = () => {
     setCurrentImageIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
@@ -26,6 +40,33 @@ export default function ProductDetailView({ item }: Props) {
 
   const handleNextImage = () => {
     setCurrentImageIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
+  };
+
+  // Swipe handlers
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > 50;
+    const isRightSwipe = distance < -50;
+
+    if (isLeftSwipe) {
+      handleNextImage();
+    }
+    if (isRightSwipe) {
+      handlePrevImage();
+    }
+
+    setTouchStart(0);
+    setTouchEnd(0);
   };
 
   const handleDecrease = () => {
@@ -59,15 +100,15 @@ export default function ProductDetailView({ item }: Props) {
   const totalPrice = item.price * quantity;
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-gray-50 pt-4 pb-8">
       <div className="container mx-auto px-4 max-w-7xl">
         {/* Back Button */}
         <button
           onClick={handleBack}
-          className="flex items-center gap-2 text-gray-600 hover:text-primary mb-6 transition-colors"
+          className="inline-flex items-center gap-2 text-primary font-bold text-sm mt-4 pb-8"
         >
-          <ArrowLeft size={20} />
-          <span className="font-medium">Back to Products</span>
+          <ChevronLeft className="w-4 h-4" />
+          Back to Products
         </button>
 
         <div className="bg-white rounded-3xl shadow-lg overflow-hidden p-6 md:p-10">
@@ -75,34 +116,38 @@ export default function ProductDetailView({ item }: Props) {
           <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
             {/* Left Column: Image Slider */}
             <div className="space-y-4">
-              <div className="relative aspect-square bg-gray-100 rounded-2xl overflow-hidden">
+              <div 
+                className="relative aspect-square bg-gray-100 rounded-2xl overflow-hidden"
+                onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
+                onTouchEnd={handleTouchEnd}
+              >
                 <div
                   className="absolute inset-0 bg-cover bg-center transition-all duration-500"
                   style={{ backgroundImage: `url('${images[currentImageIndex]}')` }}
                 />
 
-                {/* Navigation Arrows */}
-                {images.length > 1 && (
-                  <>
-                    <button
-                      onClick={handlePrevImage}
-                      className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white p-2 rounded-full shadow-lg transition-all"
-                    >
-                      <ChevronLeft size={24} className="text-gray-800" />
-                    </button>
-                    <button
-                      onClick={handleNextImage}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white p-2 rounded-full shadow-lg transition-all"
-                    >
-                      <ChevronRight size={24} className="text-gray-800" />
-                    </button>
-                  </>
-                )}
-
                 {/* Badge */}
                 {item.badge && (
                   <div className="absolute top-4 left-4 bg-primary text-white text-sm px-3 py-1.5 rounded-lg font-semibold">
                     {item.badge}
+                  </div>
+                )}
+
+                {/* Indicator Dots */}
+                {images.length > 1 && (
+                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2">
+                    {images.map((_, index) => (
+                      <button
+                        key={index}
+                        onClick={() => setCurrentImageIndex(index)}
+                        className={`rounded-full transition-all ${
+                          currentImageIndex === index
+                            ? "w-3 h-3 bg-white"
+                            : "w-2 h-2 bg-white/40 hover:bg-white/60"
+                        }`}
+                      />
+                    ))}
                   </div>
                 )}
               </div>
